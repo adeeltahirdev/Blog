@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>simple post · quiet corners</title>
+    <!-- same gentle reset & clean base as the blog template -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fafaf8;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: #1d1d1b;
+        line-height: 1.5;
+        padding: 2rem 1rem;
+      }
+
+      .blog {
+        max-width: 1024px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 28px;
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.03),
+          0 4px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        border: 1px solid #f0f0ea;
+      }
+
+      /* container for consistent padding */
+      .container {
+        padding: 2rem 2.5rem;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem 0.5rem;
+        }
+        .container {
+          padding: 1.5rem 1.5rem;
+        }
+      }
+
+      /* header area (exactly same as index) */
+      .blog-header {
+        border-bottom: 1px solid #eaeae4;
+        background: #ffffff;
+      }
+
+      .blog-title {
+        font-size: 2.2rem;
+        font-weight: 580;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      .blog-title a {
+        text-decoration: none;
+        color: #1d1d1b;
+      }
+
+      .blog-title a:hover {
+        color: #6b4f3c;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 1.2rem;
+        font-weight: 430;
+        border-top: 1px solid #efeee8;
+        padding-top: 1.2rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #3a3a35;
+        font-size: 1rem;
+        transition: color 0.15s;
+      }
+
+      .nav-links a:hover {
+        color: #b45f2b;
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 0.8rem;
+        margin-left: auto;
+      }
+      .login-link {
+        background: transparent;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #4a443c;
+        font-weight: 500;
+        border: 1px solid #d6cec4;
+      }
+      .login-link:hover {
+        background: #f0eae2;
+        color: #1d1d1b !important;
+      }
+      .register-link {
+        background: #e1d9d1;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #2d2a24;
+        font-weight: 500;
+      }
+      .register-link:hover {
+        background: #d4c8bc;
+        color: #1d1d1b !important;
+      }
+
+      /* --- specific post page styles --- */
+      .post-header {
+        border-bottom: 1px solid #efeee8;
+      }
+
+      .post-header .meta-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.2rem 2rem;
+        margin: 0.75rem 0 1.2rem;
+        color: #5f5e59;
+        font-size: 0.95rem;
+      }
+
+      .post-header .meta-line time {
+        background: #f1f0eb;
+        padding: 0.2rem 0.8rem;
+        border-radius: 30px;
+      }
+
+      .post-header .author-tag {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .post-header .author-tag::before {
+        content: "✎";
+        opacity: 0.7;
+      }
+
+      .post-title {
+        font-size: 2.6rem;
+        font-weight: 580;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+        max-width: 90%;
+      }
+
+      @media (max-width: 600px) {
+        .post-title {
+          font-size: 2rem;
+          max-width: 100%;
+        }
+      }
+
+      /* hero image placeholder */
+      .post-figure {
+        margin: 2rem 0 2rem;
+        background: #edeae3;
+        border-radius: 24px;
+        height: auto;
+        overflow: hidden;
+      }
+
+      .image-placeholder {
+        background: linear-gradient(145deg, #dad6cd 0%, #cbc6ba 100%);
+        height: 320px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5a5245;
+        font-size: 1rem;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        border-radius: 20px;
+      }
+
+      /* article typography */
+      .post-content {
+        font-size: 1.1rem;
+        max-width: 720px;
+        margin: 0 auto 2rem;
+        color: #2a2a27;
+      }
+
+      .post-content p {
+        margin-bottom: 1.6rem;
+      }
+
+      .post-content h2 {
+        font-size: 1.9rem;
+        font-weight: 540;
+        margin: 2.2rem 0 1rem;
+        letter-spacing: -0.01em;
+      }
+
+      .post-content h3 {
+        font-size: 1.4rem;
+        font-weight: 520;
+        margin: 2rem 0 0.8rem;
+      }
+
+      .post-content blockquote {
+        margin: 2rem 0 2rem 0;
+        padding: 1.2rem 2rem;
+        background: #f8f6f2;
+        border-left: 5px solid #bfafa0;
+        font-style: normal;
+        color: #3d3b34;
+        border-radius: 0 24px 24px 0;
+      }
+
+      .post-content blockquote p {
+        margin-bottom: 0.5rem;
+      }
+
+      .post-content figcaption {
+        font-size: 0.85rem;
+        color: #6b685f;
+        margin-top: 0.3rem;
+        text-align: right;
+      }
+
+      /* meta footer (tags, share) */
+      .post-foot {
+        border-top: 1px solid #eaeae4;
+        border-bottom: 1px solid #eaeae4;
+        padding: 1.5rem 0;
+        margin: 2.5rem 0 1.8rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .tag-list {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        background: #efede8;
+        padding: 0.3rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        color: #4c443b;
+        text-decoration: none;
+      }
+
+      .tag:hover {
+        background: #e0d8cf;
+      }
+
+      .share-links {
+        display: flex;
+        gap: 1.2rem;
+      }
+
+      .share-links a {
+        text-decoration: none;
+        color: #5f5549;
+        font-size: 0.95rem;
+        border-bottom: 1px dotted #cfc6bc;
+      }
+
+      .share-links a:hover {
+        color: #1f1b16;
+        border-bottom: 1px solid #5f5549;
+      }
+
+      /* simple author mini-bio */
+      .author-bio {
+        display: flex;
+        gap: 1.2rem;
+        background: #faf9f6;
+        padding: 1.5rem 2rem;
+        border-radius: 28px;
+        margin: 2rem 0 1rem;
+        align-items: center;
+        border: 1px solid #e7e3da;
+      }
+
+      .author-avatar {
+        background: #c7bcae;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #4d4237;
+        font-weight: 350;
+      }
+
+      .author-bio p {
+        color: #3c3a33;
+      }
+
+      /* comments / reply placeholder — very simple */
+      .comment-section {
+        margin: 2.8rem 0 1.2rem;
+      }
+
+      .comment-note {
+        background: #f6f4ef;
+        border-radius: 20px;
+        padding: 1.2rem 1.8rem;
+        color: #555249;
+        border: 1px solid #e3dfd6;
+        font-size: 0.95rem;
+      }
+
+      /* newsletter box (reused) */
+      .newsletter-box {
+        background: #f7f5f1;
+        border-radius: 20px;
+        margin: 2rem 0 1.5rem;
+        padding: 1.8rem 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        border: 1px solid #e3dfd7;
+      }
+
+      .newsletter-text h3 {
+        font-weight: 560;
+        font-size: 1.3rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .newsletter-text p {
+        color: #4b4a43;
+      }
+
+      .newsletter-input {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .newsletter-input input {
+        padding: 0.7rem 1rem;
+        border: 1px solid #cfc9c0;
+        border-radius: 60px;
+        background: white;
+        font-size: 0.9rem;
+        min-width: 220px;
+        outline: none;
+      }
+
+      .newsletter-input input:focus {
+        border-color: #a4846b;
+        box-shadow: 0 0 0 2px rgba(164, 132, 107, 0.1);
+      }
+
+      .newsletter-input button {
+        background: #29231f;
+        color: white;
+        border: none;
+        padding: 0.7rem 1.6rem;
+        border-radius: 60px;
+        font-weight: 480;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.15s background;
+      }
+
+      .newsletter-input button:hover {
+        background: #4f3e32;
+      }
+
+      /* footer (identical to index) */
+      .blog-footer {
+        border-top: 1px solid #e7e5dd;
+        background: #fbfaf7;
+        padding: 1.6rem 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        color: #5f5c54;
+        font-size: 0.9rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 1.8rem;
+      }
+
+      .footer-links a {
+        text-decoration: none;
+        color: #4d4a42;
+      }
+
+      .footer-links a:hover {
+        color: #a8612f;
+      }
+
+      .copyright {
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 550px) {
+        .blog-footer {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: start;
+        }
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #efeee8;
+        margin: 1.2rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blog">
+      <!-- header (exactly as index) -->
+      <header class="blog-header container">
+        <h1 class="blog-title"><a href="/">common & compass</a></h1>
+        <nav class="nav-links">
+          <a href="/write/">Write 📝</a>
+          <div class="auth-buttons">
+            {% if user.is_authenticated %}
+            <a href="/logout/" class="login-link">log out</a>
+            <a href="/profile/" class="register-link">{{user.username}}</a>
+            {% else %}
+            <a href="/login/" class="login-link">log in</a>
+            <a href="/register/" class="register-link">join</a>
+            {% endif %}
+          </div>
+        </nav>
+      </header>
+
+      <!-- main post container -->
+      <article class="container" style="padding-top: 2rem">
+        <header class="post-header">
+          <h1 class="post-title">{{posts.title}}</h1>
+          <div class="meta-line">
+            <time>{{posts.created_at}}</time>
+          </div>
+        </header>
+
+        <!-- article content (full post) -->
+        <div class="post-content">
+          <p>{{posts.content}}</p>
+        </div>
+
+        <!-- post footer (tags & share) -->
+        <footer class="post-foot">
+          <div class="tag-list">
+            <a href="#" class="tag">#autumn</a>
+            <a href="#" class="tag">#walking</a>
+            <a href="#" class="tag">#stillness</a>
+            <a href="#" class="tag">#river wye</a>
+          </div>
+          <div class="share-links">
+            <a href="#">share</a>
+            <a href="#">tweet</a>
+            <a href="#">copy link</a>
+          </div>
+        </footer>
+
+        <div class="author-bio">
+          <div class="author-avatar">📘</div>
+          <div>
+            <strong style="font-size: 1.1rem">{{posts.author}}</strong>
+            <p style="margin-top: 0.2rem">
+              writes and photographs from the borderlands of wales and england.
+              she’s currently working on a collection of essays about attention
+              and walking.
+            </p>
+          </div>
+        </div>
+
+        <!-- newsletter box (same as index, inside article flow) -->
+        <div class="newsletter-box">
+          <div class="newsletter-text">
+            <h3>⏎ field notes</h3>
+            <p>
+              Occasional letters, reading lists and (very) private thoughts.
+            </p>
+          </div>
+          <div class="newsletter-input">
+            <input
+              type="email"
+              placeholder="your.email@example.com"
+              aria-label="Email for newsletter"
+            />
+            <button type="button">subscribe</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- footer (identical to index) -->
+      <footer class="blog-footer">
+        <div class="copyright">
+          &copy; 2025 common & compass – a simple blog template.
+        </div>
+        <div class="footer-links">
+          <a href="#">rss</a>
+          <a href="#">mastodon</a>
+          <a href="#">github</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

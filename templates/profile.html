@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ user.username }}&mdash;common & compass</title>
+    <!-- same styles as before -->
+    <style>
+      /* all your existing styles remain exactly the same */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #fafaf8;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: #1d1d1b;
+        line-height: 1.5;
+        padding: 2rem 1rem;
+      }
+      .blog {
+        max-width: 1024px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 28px;
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.03),
+          0 4px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        border: 1px solid #f0f0ea;
+      }
+      .container {
+        padding: 2rem 2.5rem;
+      }
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem 0.5rem;
+        }
+        .container {
+          padding: 1.5rem 1.5rem;
+        }
+      }
+      .blog-header {
+        border-bottom: 1px solid #eaeae4;
+        background: #ffffff;
+      }
+      .blog-title {
+        font-size: 2.2rem;
+        font-weight: 580;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+      .blog-title a {
+        text-decoration: none;
+        color: #1d1d1b;
+      }
+      .blog-title a:hover {
+        color: #6b4f3c;
+      }
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 1.2rem;
+        font-weight: 430;
+        border-top: 1px solid #efeee8;
+        padding-top: 1.2rem;
+        align-items: center;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #3a3a35;
+        font-size: 1rem;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover {
+        color: #b45f2b;
+      }
+      .auth-buttons {
+        display: flex;
+        gap: 0.8rem;
+        margin-left: auto;
+      }
+      .login-link {
+        background: transparent;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #4a443c;
+        font-weight: 500;
+        border: 1px solid #d6cec4;
+      }
+      .login-link:hover {
+        background: #f0eae2;
+        color: #1d1d1b !important;
+      }
+      .register-link {
+        background: #e1d9d1;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #2d2a24;
+        font-weight: 500;
+      }
+      .register-link:hover {
+        background: #d4c8bc;
+        color: #1d1d1b !important;
+      }
+
+      /* post page specific */
+      .post-header {
+        margin-bottom: 2rem;
+      }
+      .post-title {
+        font-size: 2.6rem;
+        font-weight: 580;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+      .post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        color: #5f5e59;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #efeee8;
+      }
+      .post-content {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        max-width: 720px;
+        margin: 0 auto 3rem;
+      }
+      .post-content p {
+        margin-bottom: 1.5rem;
+      }
+
+      /* author actions - NEW: edit/delete buttons for post owner */
+      .author-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin: 1rem 0 1.5rem;
+        padding: 1rem 0;
+        border-top: 1px solid #efeee8;
+        border-bottom: 1px solid #efeee8;
+      }
+      .edit-btn,
+      .delete-btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 40px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: 0.15s;
+        border: none;
+        cursor: pointer;
+      }
+      .edit-btn {
+        background: #eae5dd;
+        color: #3b362f;
+      }
+      .edit-btn:hover {
+        background: #dbd2c6;
+      }
+      .delete-btn {
+        background: #f3e9e2;
+        color: #8f4e3a;
+        border: 1px solid #e2cfc2;
+      }
+      .delete-btn:hover {
+        background: #ebd9cd;
+        color: #6b3b2b;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 2rem 0 1rem;
+        flex-wrap: wrap;
+      }
+
+      .pagination a,
+      .pagination span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding: 0 0.5rem;
+        border-radius: 40px;
+        text-decoration: none;
+        color: #4a4a42;
+        font-size: 0.95rem;
+        transition: 0.15s;
+      }
+
+      .pagination a {
+        background: transparent;
+        border: 1px solid #e0dbd2;
+      }
+
+      .pagination a:hover {
+        background: #efe9e1;
+        border-color: #b9ad9e;
+      }
+
+      .pagination .current {
+        background: #29231f;
+        color: white;
+        border: 1px solid #29231f;
+      }
+
+      .pagination .ellipsis {
+        border: none;
+        background: transparent;
+      }
+
+      .pagination .prev-next {
+        font-weight: 500;
+        padding: 0 1.2rem;
+      }
+
+      .blog-footer {
+        border-top: 1px solid #e7e5dd;
+        background: #fbfaf7;
+        padding: 1.6rem 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        color: #5f5c54;
+        font-size: 0.9rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.8rem;
+      }
+      .footer-links a {
+        text-decoration: none;
+        color: #4d4a42;
+      }
+      .footer-links a:hover {
+        color: #a8612f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blog">
+      <!-- header -->
+      <header class="blog-header container">
+        <h1 class="blog-title"><a href="/">common & compass</a></h1>
+        <nav class="nav-links">
+          <a href="/write/">Write 📝</a>
+          <div class="auth-buttons">
+            {% if user.is_authenticated %}
+            <a href="/logout/" class="login-link">logout</a>
+            <a href="/profile/" class="register-link">{{user.username}}</a>
+            {% else %}
+            <a href="/login/" class="login-link">log in</a>
+            <a href="/register/" class="register-link">join</a>
+            {% endif %}
+          </div>
+        </nav>
+      </header>
+
+      <!-- post content -->
+      <div class="container">
+        <article>
+          <div class="container">
+            <article>
+              <header class="post-header">
+                <h1 class="post-title">
+                  {{ request.user.username }}'s Profile
+                </h1>
+                <div class="post-meta">
+                  <span>Total Posts: {{ page_obj.paginator.count }}</span>
+                </div>
+              </header>
+
+              {% if page_obj %} {% for post in page_obj %}
+              <div
+                class="author-actions"
+                style="justify-content: space-between"
+              >
+                <div>
+                  <h2 style="font-size: 1.4rem; margin-bottom: 0.3rem">
+                    {{ post.title }}
+                  </h2>
+                  <p style="color: #5f5e59; font-size: 0.9rem">
+                    {{ post.created_at|date:"F j, Y" }}
+                  </p>
+                </div>
+                <div style="display: flex; gap: 0.8rem">
+                  <a href="/post/{{ post.id }}/" class="edit-btn">👁 view</a>
+                  <a href="/edit/{{ post.id }}/" class="edit-btn">✎ edit</a>
+                  <button
+                    onclick="if(confirm('Delete this post?')) window.location.href='/delete/{{ post.id }}/';"
+                    class="delete-btn"
+                  >
+                    🗑 delete
+                  </button>
+                </div>
+              </div>
+              {% endfor %} {% else %}
+              <div
+                class="post-content"
+                style="text-align: center; padding: 2rem 0"
+              >
+                <p>You haven't written any posts yet.</p>
+                <a
+                  href="/write/"
+                  class="register-link"
+                  style="display: inline-block; margin-top: 1rem"
+                >
+                  Write your first post ✍️
+                </a>
+              </div>
+              {% endif %}
+
+              <!-- Pagination -->
+              {% if page_obj.has_other_pages %}
+              <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a
+                  class="prev-next"
+                  href="?page={{ page_obj.previous_page_number }}"
+                  >Previous</a
+                >
+                {% endif %} {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %} 
+                {% if page_obj.number == num %}
+                <span class="current">{{ num }}</span>
+                {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %} {% endif %} {% endfor %} {% if page_obj.has_next %}
+                <a
+                  class="prev-next"
+                  href="?page={{ page_obj.next_page_number }}"
+                  >Next</a
+                >
+                {% endif %}
+              </div>
+              {% endif %}
+            </article>
+          </div>
+        </article>
+      </div>
+
+      <!-- footer -->
+      <footer class="blog-footer">
+        <div class="copyright">&copy; 2025 common & compass</div>
+        <div class="footer-links">
+          <a href="#">rss</a>
+          <a href="#">mastodon</a>
+          <a href="#">github</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

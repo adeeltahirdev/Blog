@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>write · new post</title>
+  <!-- same gentle styles as main blog -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #fafaf8;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1d1d1b;
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+    .blog {
+      max-width: 1024px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      border: 1px solid #f0f0ea;
+    }
+    .container { padding: 2rem 2.5rem; }
+    @media (max-width: 600px) {
+      body { padding: 1rem 0.5rem; }
+      .container { padding: 1.5rem 1.5rem; }
+    }
+
+    /* header (exactly as index) */
+    .blog-header {
+      border-bottom: 1px solid #eaeae4;
+      background: #ffffff;
+    }
+    .blog-title {
+      font-size: 2.2rem;
+      font-weight: 580;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .blog-title a {
+      text-decoration: none;
+      color: #1d1d1b;
+    }
+    .blog-title a:hover { color: #6b4f3c; }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1.2rem;
+      font-weight: 430;
+      border-top: 1px solid #efeee8;
+      padding-top: 1.2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #3a3a35;
+      font-size: 1rem;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: #b45f2b; }
+    
+    /* auth buttons (same as index) */
+    .auth-buttons {
+      display: flex;
+      gap: 0.8rem;
+      margin-left: auto;
+    }
+    .login-link {
+      background: transparent;
+      padding: 0.25rem 1.2rem;
+      border-radius: 40px;
+      color: #4a443c;
+      font-weight: 500;
+      border: 1px solid #d6cec4;
+    }
+    .login-link:hover { background: #f0eae2; color: #1d1d1b !important; }
+    .register-link {
+      background: #e1d9d1;
+      padding: 0.25rem 1.2rem;
+      border-radius: 40px;
+      color: #2d2a24;
+      font-weight: 500;
+    }
+    .register-link:hover { background: #d4c8bc; color: #1d1d1b !important; }
+
+    /* write post specific */
+    .write-header {
+      margin-bottom: 2.2rem;
+    }
+    .write-header h2 {
+      font-size: 2.2rem;
+      font-weight: 560;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3rem;
+    }
+    .write-header .sub {
+      color: #676457;
+      font-size: 1rem;
+    }
+
+    .post-form {
+      max-width: 820px;
+      margin: 0 auto 2.5rem;
+    }
+    .form-group {
+      margin-bottom: 2rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 530;
+      color: #3b3a33;
+      margin-bottom: 0.5rem;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="url"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      background: #ffffff;
+      border: 1px solid #d6d0c6;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: 0.15s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #a4846b;
+      box-shadow: 0 0 0 3px rgba(164, 132, 107, 0.1);
+    }
+    .form-group textarea {
+      min-height: 260px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* image upload area (simple) */
+    .image-upload {
+      border: 2px dashed #d6cfc4;
+      border-radius: 28px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: #fbf9f6;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .image-upload:hover {
+      border-color: #a4846b;
+      background: #f9f5ef;
+    }
+    .image-upload .upload-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.7;
+    }
+    .image-upload p {
+      color: #5a554b;
+      font-size: 0.95rem;
+    }
+    .image-upload input {
+      display: none;
+    }
+
+    /* category row (two columns on larger screens) */
+    .category-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 550px) {
+      .category-row { grid-template-columns: 1fr; }
+    }
+
+    /* tags input */
+    .tags-hint {
+      font-size: 0.85rem;
+      color: #6b685f;
+      margin-top: 0.4rem;
+    }
+
+    /* action buttons */
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin: 2.8rem 0 1.5rem;
+      border-top: 1px solid #efeee8;
+      padding-top: 2.2rem;
+    }
+    .btn {
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 530;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.15s;
+      border: none;
+      background: transparent;
+    }
+    .btn-primary {
+      background: #29231f;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #4f3e32;
+    }
+    .btn-outline {
+      border: 1px solid #cbc3b8;
+      color: #3d3a33;
+    }
+    .btn-outline:hover {
+      background: #f0ece6;
+    }
+
+    /* preview hint (simple) */
+    .preview-hint {
+      background: #f6f4ef;
+      border-radius: 60px;
+      padding: 0.5rem 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: #4a4a42;
+    }
+
+    /* footer */
+    .blog-footer {
+      border-top: 1px solid #e7e5dd;
+      background: #fbfaf7;
+      padding: 1.6rem 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      color: #5f5c54;
+      font-size: 0.9rem;
+    }
+    .footer-links { display: flex; gap: 1.8rem; }
+    .footer-links a { text-decoration: none; color: #4d4a42; }
+    .footer-links a:hover { color: #a8612f; }
+    @media (max-width: 550px) {
+      .blog-footer { flex-direction: column; gap: 1rem; align-items: start; }
+    }
+    hr { border: none; border-top: 1px solid #efeee8; margin: 1.2rem 0; }
+  </style>
+</head>
+<body>
+  <div class="blog">
+    <!-- header with auth (same as index) -->
+    <header class="blog-header container">
+      <h1 class="blog-title"><a href="/">common & compass</a></h1>
+      <nav class="nav-links">
+        <a href="/write/">Write 📝</a>
+        <div class="auth-buttons">
+          {% if user.is_authenticated %}
+          <a href="/logout/" class="login-link">log out</a>
+          <a href="/profile/" class="register-link">{{user.username}}</a>
+          {% else %}
+          <a href="/login/" class="login-link">log in</a>
+          <a href="/register/" class="register-link">join</a>
+          {% endif %}
+        </div>
+      </nav>
+    </header>
+
+    <!-- write post area -->
+    <div class="container" style="padding-top: 1.5rem; padding-bottom: 2rem;">
+      <div class="write-header">
+        <h2>write a new post</h2>
+        <div class="sub">share your thoughts — draft or publish</div>
+      </div>
+
+      {% if user.is_authenticated %}
+      <!-- main form -->
+      <form class="post-form" method="post">
+        {% csrf_token %}
+
+        <!-- post title -->
+        <div class="form-group">
+          <label for="title">title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. The quiet corners of late autumn" autocomplete="off">
+        </div>
+
+        <!-- content (markdown / plain text) -->
+        <div class="form-group">
+          <label for="content">content</label>
+          <textarea id="content" name="content" placeholder="Write your post here... (markdown or plain text)"></textarea>
+        </div>
+
+        <div class="category-row">
+          <div class="form-group">
+            <label for="category">category</label>
+            <select id="category" name="category">
+              <option value="" disabled selected>— select —</option>
+              <option>journal</option>
+              <option>notes</option>
+              <option>field guides</option>
+              <option>kitchen chronicles</option>
+              <option>readings</option>
+              <option>local walks</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="readTime">estimated read time (minutes)</label>
+            <input type="text" id="readTime" name="readTime" placeholder="e.g. 5">
+          </div>
+        </div>
+
+        <!-- tags (simple text input) -->
+        <div class="form-group">
+          <label for="tags">tags (comma separated)</label>
+          <input type="text" id="tags" name="tags" placeholder="autumn, walking, stillness">
+          <div class="tags-hint">optional — helps readers find related posts</div>
+        </div>
+
+        <!-- action buttons -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline">save draft</button>
+          <button type="submit" class="btn btn-primary">publish</button>
+        </div>
+      </form>
+      {% else %}
+      <p style="font-size: 0.9rem; color: #b45f2b; text-align: center; margin-bottom: 0.4rem;">You must login to write a post.</p>
+      {% endif %}
+
+     
+
+    <!-- footer (same as index) -->
+    <footer class="blog-footer">
+      <div class="copyright">&copy; 2025 common & compass</div>
+      <div class="footer-links">
+        <a href="#">rss</a>
+        <a href="#">mastodon</a>
+        <a href="#">github</a>
+      </div>
+    </footer>
+  </div>
+
+</body>
+</html>

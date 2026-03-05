@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>join · common & compass</title>
+    <!-- same styles as main blog -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #fafaf8;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: #1d1d1b;
+        line-height: 1.5;
+        padding: 2rem 1rem;
+      }
+      .blog {
+        max-width: 1024px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 28px;
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.03),
+          0 4px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        border: 1px solid #f0f0ea;
+      }
+      .container {
+        padding: 2rem 2.5rem;
+      }
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem 0.5rem;
+        }
+        .container {
+          padding: 1.5rem 1.5rem;
+        }
+      }
+      .blog-header {
+        border-bottom: 1px solid #eaeae4;
+        background: #ffffff;
+      }
+      .blog-title {
+        font-size: 2.2rem;
+        font-weight: 580;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+      .blog-title a {
+        text-decoration: none;
+        color: #1d1d1b;
+      }
+      .blog-title a:hover {
+        color: #6b4f3c;
+      }
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 1.2rem;
+        font-weight: 430;
+        border-top: 1px solid #efeee8;
+        padding-top: 1.2rem;
+        align-items: center;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #3a3a35;
+        font-size: 1rem;
+        transition: color 0.15s;
+      }
+      .nav-links a:hover {
+        color: #b45f2b;
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 0.8rem;
+        margin-left: auto;
+      }
+      .login-link {
+        background: transparent;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #4a443c;
+        font-weight: 500;
+        border: 1px solid #d6cec4;
+      }
+      .login-link:hover {
+        background: #f0eae2;
+        color: #1d1d1b !important;
+      }
+      .register-link {
+        background: #e1d9d1;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #2d2a24;
+        font-weight: 500;
+      }
+      .register-link:hover {
+        background: #d4c8bc;
+        color: #1d1d1b !important;
+      }
+
+      /* registration form specific */
+      .register-box {
+        max-width: 500px;
+        margin: 1.5rem auto 2.5rem;
+        background: #fcfbf9;
+        border-radius: 32px;
+        padding: 2.5rem 2.2rem;
+        border: 1px solid #e9e4dc;
+      }
+      .register-box h2 {
+        font-size: 2rem;
+        font-weight: 540;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.5rem;
+      }
+      .register-box .sub {
+        color: #676457;
+        margin-bottom: 2rem;
+        font-size: 1rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #3b3a33;
+        margin-bottom: 0.4rem;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        background: white;
+        border: 1px solid #d6d0c6;
+        border-radius: 60px;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.15s;
+      }
+      .form-group input:focus {
+        border-color: #a4846b;
+        box-shadow: 0 0 0 3px rgba(164, 132, 107, 0.1);
+      }
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin: 1.8rem 0 2rem;
+      }
+      .checkbox-row input {
+        width: 1.2rem;
+        height: 1.2rem;
+        accent-color: #7a624b;
+      }
+      .register-btn {
+        background: #29231f;
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 60px;
+        font-weight: 530;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.15s background;
+        margin-bottom: 1.5rem;
+      }
+      .register-btn:hover {
+        background: #4f3e32;
+      }
+      .login-hint {
+        text-align: center;
+        color: #5d5a50;
+      }
+      .login-hint a {
+        color: #7a5b44;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+        text-align: center;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #efeee8;
+        margin: 1.2rem 0;
+      }
+      .blog-footer {
+        border-top: 1px solid #e7e5dd;
+        background: #fbfaf7;
+        padding: 1.6rem 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        color: #5f5c54;
+        font-size: 0.9rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.8rem;
+      }
+      .footer-links a {
+        text-decoration: none;
+        color: #4d4a42;
+      }
+      .footer-links a:hover {
+        color: #a8612f;
+      }
+      @media (max-width: 550px) {
+        .blog-footer {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: start;
+        }
+        .register-box {
+          padding: 1.8rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blog">
+      <header class="blog-header container">
+        <h1 class="blog-title"><a href="/">common & compass</a></h1>
+        <nav class="nav-links">
+            <a href="/write/">Write 📝</a>
+          <div class="auth-buttons">
+            <a href="/login/" class="login-link">log in</a>
+            <a href="/register/" class="register-link">join</a>
+          </div>
+        </nav>
+      </header>
+
+      <!-- registration form area -->
+      <div class="container" style="padding-top: 1rem; padding-bottom: 2rem">
+        <div class="register-box">
+          <h2>log in</h2>
+          <div class="sub">We're glad to see you back!</div>
+
+          <form method="post" action="/login/">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="name">User Name</label>
+              <input type="text" name="username" placeholder="maria_chang" />
+            </div>
+            <div class="form-group">
+              <label for="password">password</label>
+              <input type="password" name="password" placeholder="••••••••" />
+            </div>
+            {% for message in messages %}
+            <div class="message">{{message}}</div>
+            {% endfor %}
+            <button type="submit" class="register-btn">log in</button>
+            <div class="login-hint">
+              don't have an account? <a href="/register/">sign up →</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <footer class="blog-footer">
+        <div class="copyright">&copy; 2025 common & compass</div>
+        <div class="footer-links">
+          <a href="#">rss</a>
+          <a href="#">mastodon</a>
+          <a href="#">github</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

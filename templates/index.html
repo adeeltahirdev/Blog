@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>simple blog · template</title>
+    <!-- gentle reset & clean base -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fafaf8;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: #1d1d1b;
+        line-height: 1.5;
+        padding: 2rem 1rem;
+      }
+
+      .blog {
+        max-width: 1024px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 28px;
+        box-shadow:
+          0 12px 30px rgba(0, 0, 0, 0.03),
+          0 4px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        border: 1px solid #f0f0ea;
+      }
+
+      /* container for consistent padding */
+      .container {
+        padding: 2rem 2.5rem;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem 0.5rem;
+        }
+        .container {
+          padding: 1.5rem 1.5rem;
+        }
+      }
+
+      /* header area */
+      .blog-header {
+        border-bottom: 1px solid #eaeae4;
+        background: #ffffff;
+      }
+
+      .blog-title {
+        font-size: 2.2rem;
+        font-weight: 580;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+
+      .blog-title a {
+        text-decoration: none;
+        color: #1d1d1b;
+      }
+
+      .blog-title a:hover {
+        color: #6b4f3c;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 1.2rem;
+        font-weight: 430;
+        border-top: 1px solid #efeee8;
+        padding-top: 1.2rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #3a3a35;
+        font-size: 1rem;
+        transition: color 0.15s;
+      }
+
+      .nav-links a:hover {
+        color: #b45f2b;
+      }
+
+      .nav-links a:hover {
+        color: #b45f2b;
+      }
+      .auth-buttons {
+        display: flex;
+        gap: 0.8rem;
+        margin-left: auto;
+      }
+      .login-link {
+        background: transparent;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #4a443c;
+        font-weight: 500;
+        border: 1px solid #d6cec4;
+      }
+      .login-link:hover {
+        background: #f0eae2;
+        color: #1d1d1b !important;
+      }
+      .register-link {
+        background: #e1d9d1;
+        padding: 0.25rem 1.2rem;
+        border-radius: 40px;
+        color: #2d2a24;
+        font-weight: 500;
+      }
+      .register-link:hover {
+        background: #d4c8bc;
+        color: #1d1d1b !important;
+      }
+
+      /* hero / featured post */
+      .featured-section {
+        background: #fcfcf9;
+        border-bottom: 1px solid #e6e6dd;
+      }
+
+      .featured-tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: #e1d9d1;
+        color: #3a2e26;
+        padding: 0.25rem 0.9rem;
+        border-radius: 30px;
+        font-weight: 550;
+        margin-bottom: 1rem;
+      }
+
+      .featured-title {
+        font-size: 2rem;
+        font-weight: 570;
+        line-height: 1.25;
+        margin-bottom: 0.75rem;
+      }
+
+      .featured-title a {
+        text-decoration: none;
+        color: #1f1e1b;
+      }
+
+      .featured-title a:hover {
+        text-decoration: underline;
+        text-decoration-color: #bba89a;
+        text-underline-offset: 4px;
+      }
+
+      .featured-meta {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #5f5e59;
+        margin-bottom: 1.2rem;
+        flex-wrap: wrap;
+      }
+
+      .featured-meta time {
+        background: #f1f0eb;
+        padding: 0.2rem 0.8rem;
+        border-radius: 30px;
+      }
+
+      .featured-excerpt {
+        font-size: 1.1rem;
+        color: #3b3b36;
+        max-width: 85%;
+        border-left: 3px solid #d6cdc2;
+        padding-left: 1.3rem;
+        margin: 1.2rem 0 0.4rem;
+      }
+
+      @media (max-width: 500px) {
+        .featured-title {
+          font-size: 1.7rem;
+        }
+        .featured-excerpt {
+          max-width: 100%;
+        }
+      }
+
+      /* blog grid – 2 columns */
+      .post-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.2rem 2rem;
+        margin-top: 1.5rem;
+      }
+
+      @media (max-width: 600px) {
+        .post-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .post-card {
+        border-bottom: 1px solid transparent;
+        transition: transform 0.1s ease;
+      }
+
+      .post-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .card-category {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: #7b6b5d;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        margin-bottom: 0.4rem;
+      }
+
+      .card-title {
+        font-size: 1.35rem;
+        font-weight: 560;
+        line-height: 1.3;
+        margin-bottom: 0.4rem;
+      }
+
+      .card-title a {
+        text-decoration: none;
+        color: #1f1e1b;
+      }
+
+      .card-title a:hover {
+        color: #9f6d4a;
+      }
+
+      .card-meta {
+        font-size: 0.85rem;
+        color: #706e67;
+        margin-bottom: 0.7rem;
+      }
+
+      .card-excerpt {
+        color: #4f4e48;
+        font-size: 0.95rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .read-more {
+        font-size: 0.9rem;
+        font-weight: 480;
+      }
+
+      .read-more a {
+        text-decoration: none;
+        color: #7a5b44;
+        border-bottom: 1px solid #e3d9d0;
+        padding-bottom: 1px;
+      }
+
+      .read-more a:hover {
+        color: #382e26;
+        border-bottom-color: #9f8a78;
+      }
+
+      /* simple newsletter / callout */
+      .newsletter-box {
+        background: #f7f5f1;
+        border-radius: 20px;
+        margin: 2rem 2.5rem 1.5rem;
+        padding: 1.8rem 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        border: 1px solid #e3dfd7;
+      }
+
+      .newsletter-text h3 {
+        font-weight: 560;
+        font-size: 1.3rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .newsletter-text p {
+        color: #4b4a43;
+      }
+
+      .newsletter-input {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .newsletter-input input {
+        padding: 0.7rem 1rem;
+        border: 1px solid #cfc9c0;
+        border-radius: 60px;
+        background: white;
+        font-size: 0.9rem;
+        min-width: 220px;
+        outline: none;
+      }
+
+      .newsletter-input input:focus {
+        border-color: #a4846b;
+        box-shadow: 0 0 0 2px rgba(164, 132, 107, 0.1);
+      }
+
+      .message {
+        color: #b45f2b;
+        font-size: 0.9rem;
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+        text-align: center;
+      }
+
+      .newsletter-input button {
+        background: #29231f;
+        color: white;
+        border: none;
+        padding: 0.7rem 1.6rem;
+        border-radius: 60px;
+        font-weight: 480;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: 0.15s background;
+      }
+
+      .newsletter-input button:hover {
+        background: #4f3e32;
+      }
+
+      @media (max-width: 700px) {
+        .newsletter-box {
+          margin: 2rem 1.5rem;
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .newsletter-input input {
+          min-width: auto;
+          flex: 1;
+        }
+      }
+
+      /* footer */
+      .blog-footer {
+        border-top: 1px solid #e7e5dd;
+        background: #fbfaf7;
+        padding: 1.6rem 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        color: #5f5c54;
+        font-size: 0.9rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 1.8rem;
+      }
+
+      .footer-links a {
+        text-decoration: none;
+        color: #4d4a42;
+      }
+
+      .footer-links a:hover {
+        color: #a8612f;
+      }
+
+      .copyright {
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 550px) {
+        .blog-footer {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: start;
+        }
+      }
+
+      /* dividers & micro */
+      hr {
+        border: none;
+        border-top: 1px solid #efeee8;
+        margin: 1.2rem 0;
+      }
+
+      .container:last-of-type {
+        padding-bottom: 1rem;
+      }
+
+      /* pagination styles */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 2rem 0 1rem;
+        flex-wrap: wrap;
+      }
+
+      .pagination a,
+      .pagination span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding: 0 0.5rem;
+        border-radius: 40px;
+        text-decoration: none;
+        color: #4a4a42;
+        font-size: 0.95rem;
+        transition: 0.15s;
+      }
+
+      .pagination a {
+        background: transparent;
+        border: 1px solid #e0dbd2;
+      }
+
+      .pagination a:hover {
+        background: #efe9e1;
+        border-color: #b9ad9e;
+      }
+
+      .pagination .current {
+        background: #29231f;
+        color: white;
+        border: 1px solid #29231f;
+      }
+
+      .pagination .ellipsis {
+        border: none;
+        background: transparent;
+      }
+
+      .pagination .prev-next {
+        font-weight: 500;
+        padding: 0 1.2rem;
+      }
+
+      .showing-info {
+        text-align: center;
+        font-size: 0.9rem;
+        color: #7a776d;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blog">
+      <!-- header -->
+      <header class="blog-header container">
+        <h1 class="blog-title"><a href="/">common & compass</a></h1>
+        <nav class="nav-links">
+          <a href="/write/">Write 📝</a>
+          <div class="auth-buttons">
+            {% if user.is_authenticated %}
+            <a href="/logout/" class="login-link">logout</a>
+            <a href="/profile/" class="register-link">{{user.username}}</a>
+            {% else %}
+            <a href="/login/" class="login-link">log in</a>
+            <a href="/register/" class="register-link">join</a>
+            {% endif %}
+          </div>
+        </nav>
+      </header>
+
+      
+      <div class="container" style="padding-top: 0.8rem">
+        <div class="post-grid">
+          {% for post in page_obj %}
+          <article class="post-card">
+            <h3 class="card-title">{{post.title}}</h3>
+            <div class="card-meta">{{post.created_at}}</div>
+            <p class="card-excerpt">{{post.content |truncatechars:100}}</p>
+            <span class="read-more">
+              {% if user.is_authenticated %}
+              <a href="/post/{{post.id}}">continue reading →</a>
+            </span>
+            {% else %}
+            <div class="message">Please log in to read full posts.</div>
+            {% endif %}
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+          <a class="prev-next" href="?page={{ page_obj.previous_page_number }}"
+            >Previous</a
+          >
+          {% endif %} {% if page_obj.number > 3 %}
+          <a href="?page=1">1</a>
+          <span class="ellipsis">...</span>
+          {% endif %} 
+          {% for num in page_obj.paginator.page_range %} {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %} 
+          {% if page_obj.number == num %}
+          <span class="current">{{ num }}</span>
+          {% else %}
+          <a href="?page={{ num }}">{{ num }}</a>
+          {% endif %} {% endif %} {% endfor %} 
+          {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+          <span class="ellipsis">...</span>
+          <a href="?page={{ page_obj.paginator.num_pages }}"
+            >{{ page_obj.paginator.num_pages }}</a
+          >
+          {% endif %} {% if page_obj.has_next %}
+          <a class="prev-next" href="?page={{ page_obj.next_page_number }}"
+            >Next</a
+          >
+          {% endif %}
+        </div>
+
+        <hr />
+      </div>
+
+      <!-- newsletter / keep in touch -->
+      <div class="newsletter-box">
+        <div class="newsletter-text">
+          <h3>⏎ field notes</h3>
+          <p>Occasional letters, reading lists and (very) private thoughts.</p>
+        </div>
+        <div class="newsletter-input">
+          <input
+            type="email"
+            placeholder="your.email@example.com"
+            aria-label="Email for newsletter"
+          />
+          <button type="button">subscribe</button>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <footer class="blog-footer">
+        <div class="copyright">
+          &copy; 2025 common & compass – a simple blog template.
+        </div>
+        <div class="footer-links">
+          <a href="#">rss</a>
+          <a href="#">mastodon</a>
+          <a href="#">github</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
