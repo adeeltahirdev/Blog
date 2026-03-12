@@ -13,17 +13,17 @@ def register(request):
         password = request.POST.get('password')
         
         if User.objects.filter(username=username).exists():
-            messages.info(request, 'Username already taken')
+            messages.error(request, 'Username already taken')
             return redirect('register')       
         
         elif User.objects.filter(email=email).exists():
-            messages.info(request, 'Email already registered')
+            messages.error(request, 'Email already registered')
             return redirect('register')
         
         else:
             user = User.objects.create_user(username=username, email=email, password=password)    
             user.save()
-            messages.info(request, 'Registration successful! Please login.')
+            messages.success(request, 'Registration successful! Please login.')
             return redirect('login')
     else:
         return render(request, 'register.html')
@@ -39,7 +39,7 @@ def login(request):
             auth.login(request, user)
             return redirect('/')
         else:
-            messages.info(request, 'Invalid credentials')
+            messages.error(request, 'Invalid credentials')
             return redirect('login')
     return render(request, 'login.html')
 
